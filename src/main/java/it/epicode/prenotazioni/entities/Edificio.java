@@ -32,4 +32,5 @@ public class Edificio {
     @OneToMany(mappedBy = "edificio")
     private List<Postazione> postazioni;
 
+
 }
