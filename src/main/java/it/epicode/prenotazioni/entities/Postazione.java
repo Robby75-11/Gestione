@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "postazioni")
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(exclude = "prenotazioni")
 
 public class Postazione {

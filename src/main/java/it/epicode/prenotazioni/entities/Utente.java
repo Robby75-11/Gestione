@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "utenti")
 @ToString(exclude = "prenotazioni")// Esclude le prenotazioni per evitare loop infiniti nel toString
@@ -34,6 +33,7 @@ public class Utente {
     // MappedBy indica il nome del campo nell'entità "Prenotazione" che è il proprietario della relazione
     @OneToMany(mappedBy = "utente")
     private List<Prenotazione> prenotazioni;
+
 
 
 }

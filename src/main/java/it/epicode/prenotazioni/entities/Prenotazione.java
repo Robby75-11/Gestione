@@ -1,13 +1,13 @@
 package it.epicode.prenotazioni.entities;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "prenotazioni", uniqueConstraints = {
         // Questa constraint assicura che una postazione possa essere prenotata una sola volta per una data specifica.
@@ -16,10 +16,6 @@ import java.time.LocalDate;
         @UniqueConstraint(columnNames = {"postazione_id", "data_prenotazione"})
 })
 
-@Data
-@NoArgsConstructor
-
-@AllArgsConstructor
 public class Prenotazione {
 
     @Id

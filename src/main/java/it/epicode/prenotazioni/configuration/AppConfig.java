@@ -1,67 +1,76 @@
 package it.epicode.prenotazioni.configuration;
-import it.epicode.prenotazioni.entities.Prenotazione;
-import it.epicode.prenotazioni.entities.Utente;
+
 import it.epicode.prenotazioni.entities.Edificio;
 import it.epicode.prenotazioni.entities.Postazione;
 import it.epicode.prenotazioni.enumeration.TipoPostazione;
-import it.epicode.prenotazioni.repository.EdificioRepository;
-import it.epicode.prenotazioni.repository.PrenotazioneRepository;
-import it.epicode.prenotazioni.repository.UtenteRepository;
-import it.epicode.prenotazioni.repository.PostazioneRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary; // Potrebbe servire per disambiguare se hai più bean dello stesso tipo
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class AppConfig {
 
-    // Nota: I bean devono essere salvati nel DB. Possiamo farlo qui direttamente.
-    // L'ordine dei bean è importante se un bean dipende da un altro (es. Postazione dipende da Edificio).
-
-    @Bean
-    @Primary // Utile se in futuro avessi più di un bean dello stesso tipo (es. più edifici)
-    public Edificio edificioTorreguetta(EdificioRepository edificioRepository) {
-        Edificio ed = new Edificio(null, "Torreguetta", "Lungomare N.Sauro", "Bari", null);
-        return edificioRepository.save(ed); // Salva nel DB e restituisce l'istanza gestita da JPA
+    @Bean("edificioTorreEuropa")
+    @Primary // Nome del bean più specifico
+    public Edificio edificioBean() { // Il nome del metodo può rimanere, ma il bean sarà identificato dal nome specificato
+        Edificio edificio = new Edificio();
+        edificio.setNome("Torre Europa");
+        edificio.setIndirizzo("Via Milano, 1");
+        edificio.setCitta("Milano");
+        return edificio;
     }
 
-    @Bean
-    public Edificio edificioPalazzoB(EdificioRepository edificioRepository) {
-        Edificio ed = new Edificio(null, "Palazzo B", "Piazza Dante 5", "Roma", null);
-        return edificioRepository.save(ed);
+    @Bean("postazioneOpenspaceTorreEuropa")
+    public Postazione postazioneBean(Edificio edificioTorreEuropa) { // Usiamo il nome del bean qui per chiarezza
+        Postazione postazione = new Postazione();
+        postazione.setCodiceUnivoco("POST-001");
+        postazione.setDescrizione("Postazione openspace con 4 sedie");
+        postazione.setTipo(TipoPostazione.OPENSPACE);
+        postazione.setNumeroMassimoOccupanti(4);
+        postazione.setEdificio(edificioTorreEuropa);
+        return postazione;
     }
 
-
-
-    @Bean
-    public Edificio edificioCentroDirezionale(EdificioRepository edificioRepository) {
-        Edificio ed = new Edificio(null, "Centro Direzionale", "Corso Italia 20", "Milano", null);
-        return edificioRepository.save(ed);
+    // Nuovo bean: Edificio Palazzo Sinesi (Bari)
+    @Bean("edificioPalazzoSinesi")
+    public Edificio edificioPalazzoSinesi() {
+        Edificio edificio = new Edificio();
+        edificio.setNome("Palazzo Sinesi");
+        edificio.setIndirizzo("Via Dante, 15/A");
+        edificio.setCitta("Bari");
+        return edificio;
     }
 
-    @Bean
-    @Primary // Utile se in futuro avessi più di un bean dello stesso tipo (es. più postazioni generiche)
-    public Postazione postazioneP001(PostazioneRepository postazioneRepository, Edificio edificioTorreA) {
-        // edificioTorreA viene iniettato automaticamente da Spring
-        Postazione p = new Postazione(null, "P001", "Ufficio privato con vista", TipoPostazione.PRIVATO, 1, edificioTorreA, null);
-        return postazioneRepository.save(p);
+    // Nuovo bean: Postazione collegata a Palazzo Sinesi
+    @Bean("postazionePrivataPalazzoSinesi")
+    public Postazione postazionePalazzoSinesi(Edificio edificioPalazzoSinesi) {
+        Postazione postazione = new Postazione();
+        postazione.setCodiceUnivoco("POST-002");
+        postazione.setDescrizione("Postazione privata tranquilla");
+        postazione.setTipo(TipoPostazione.PRIVATO);
+        postazione.setNumeroMassimoOccupanti(1);
+        postazione.setEdificio(edificioPalazzoSinesi);
+        return postazione;
     }
 
-    @Bean
-    public Postazione postazioneP002(PostazioneRepository postazioneRepository, Edificio edificioTorreA) {
-        Postazione p = new Postazione(null, "P002", "Scrivania in open space", TipoPostazione.OPENSPACE, 1, edificioTorreA, null);
-        return postazioneRepository.save(p);
+    @Bean("edificioVillaFiorita")
+    public Edificio edificioVillaFiorita() {
+        Edificio edificio = new Edificio();
+        edificio.setNome("Villa Fiorita");
+        edificio.setIndirizzo("Via Appia, 150");
+        edificio.setCitta("Roma");
+        return edificio;
     }
 
-    @Bean
-    public Postazione postazioneP003(PostazioneRepository postazioneRepository, Edificio edificioPalazzoB) {
-        Postazione p = new Postazione(null, "P003", "Sala riunioni piccola (4 persone)", TipoPostazione.SALA_RIUNIONI, 4, edificioPalazzoB, null);
-        return postazioneRepository.save(p);
+    @Bean("postazioneSalaRiunioniVillaFiorita")
+    public Postazione postazioneVillaFiorita(Edificio edificioVillaFiorita) {
+        Postazione postazione = new Postazione();
+        postazione.setCodiceUnivoco("POST-003");
+        postazione.setDescrizione("Postazione SALA_RIUNIONI");
+        postazione.setTipo(TipoPostazione.SALA_RIUNIONI);
+        postazione.setNumeroMassimoOccupanti(1);
+        postazione.setEdificio(edificioVillaFiorita);
+        return postazione;
     }
 
-    @Bean
-    public Postazione postazioneP004(PostazioneRepository postazioneRepository, Edificio edificioCentroDirezionale) {
-        Postazione p = new Postazione(null, "P004", "Scrivania in open space (secondo piano)", TipoPostazione.OPENSPACE, 1, edificioCentroDirezionale, null);
-        return postazioneRepository.save(p);
-    }
 }

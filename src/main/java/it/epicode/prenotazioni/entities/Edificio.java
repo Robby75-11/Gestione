@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(exclude = "postazioni")
 @Table(name = "edifici")
 

@@ -19,5 +19,5 @@ public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long
     // Query per verificare se un utente ha già una prenotazione per una certa data (su qualsiasi postazione)
     boolean existsByUtenteAndDataPrenotazione(Utente utente, LocalDate dataPrenotazione);
 
-    List<Prenotazione> findByUtente(Utente utente);
+    List<Prenotazione> findByUtenteUsername(String mrossi);
 }
