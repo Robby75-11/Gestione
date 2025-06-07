@@ -63,9 +63,9 @@ public class Runner implements CommandLineRunner {
         utenteRepo.save(utente);
 
         Utente utente1 = new Utente();
-        utente1.setUsername("topogigio");
+        utente1.setUsername("topogigio13");
         utente1.setNomeCompleto("Andrea Albergo");
-        utente1.setEmail("Andrea.Albergo@example.com");
+        utente1.setEmail("Andrea.Albergo13@example.com");
         utenteRepo.save(utente1);
 
         System.out.println("👤 Nuovo utente salvato: " + utente1.getNomeCompleto());
