@@ -74,12 +74,13 @@ public class Runner implements CommandLineRunner {
         boolean continua = true;
 
         while (continua) {
-        System.out.println("========= SMENU PRINCIPALE =========");
+        System.out.println("========= MENU PRINCIPALE =========");
         System.out.println("1 - Scegli la postazione da prenotare");
         System.out.println("2 - Visualizza postazioni OPENSPACE a Milano");
         System.out.println("3 - Visualizza tutte le prenotazioni di un utente");
         System.out.println("4 - Cerca edificio per nome e città");
-        System.out.print("5 - Esci");
+        System.out.println("5 - Cerca utente per username o email");
+        System.out.print("6 - Esci");
         int scelta = scanner.nextInt();
         scanner.nextLine();
 
@@ -160,7 +161,25 @@ public class Runner implements CommandLineRunner {
                         () -> System.out.println("❌ Nessun edificio trovato con nome e città specificati.")
                 );
             }
-            case 5 -> {
+                    case 5 -> {
+                        System.out.print("Inserisci username o premi INVIO: ");
+                        String usernameInput = scanner.nextLine();
+                        System.out.print("Inserisci email o premi INVIO: ");
+                        String emailInput = scanner.nextLine();
+
+                        if (usernameInput.isEmpty() && emailInput.isEmpty()) {
+                            System.out.println("⚠️ Devi inserire almeno username o email.");
+                        } else {
+                            Optional<Utente> utenteTrovato = utenteRepo.findByUsernameOrEmail(usernameInput, emailInput);
+                            utenteTrovato.ifPresentOrElse(
+                                    u -> System.out.println("👤 Utente trovato: " + u.getNomeCompleto() + " | Email: " + u.getEmail()),
+                                    () -> System.out.println("❌ Nessun utente trovato.")
+                            );
+                        }
+                    }
+
+
+            case 6 -> {
                 System.out.println("👋 Uscita dal programma. Alla prossima!");
                 continua = false;
             }
