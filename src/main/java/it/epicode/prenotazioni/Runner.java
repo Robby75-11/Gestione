@@ -68,19 +68,20 @@ public class Runner implements CommandLineRunner {
         utente1.setEmail("Andrea.Albergo13@example.com");
         utenteRepo.save(utente1);
 
-        System.out.println("👤 Nuovo utente salvato: " + utente1.getNomeCompleto());
+
 
         Scanner scanner = new Scanner(System.in);
         boolean continua = true;
 
         while (continua) {
+            System.out.println("Gestione Prenotazioni Casa Albergo");
         System.out.println("========= MENU PRINCIPALE =========");
-        System.out.println("1 - Scegli la postazione da prenotare");
-        System.out.println("2 - Visualizza postazioni OPENSPACE a Milano");
-        System.out.println("3 - Visualizza tutte le prenotazioni di un utente");
-        System.out.println("4 - Cerca edificio per nome e città");
-        System.out.println("5 - Cerca utente per username o email");
-        System.out.print("6 - Esci");
+        System.out.println("1 -  Scegli la postazione da prenotare");
+        System.out.println("2 - 📌 Visualizza postazioni OPENSPACE a Milano");
+        System.out.println("3 - 📅 Visualizza tutte le prenotazioni di un utente");
+        System.out.println("4 - 🏢 Cerca edificio per nome e città");
+        System.out.println("5 - 👤 Cerca utente per username o email");
+        System.out.print("6 -  Esci");
         int scelta = scanner.nextInt();
         scanner.nextLine();
 
@@ -107,6 +108,7 @@ public class Runner implements CommandLineRunner {
                             // Verifica prenotazione per oggi
                             LocalDate oggi = LocalDate.now();
                             boolean postazioneOccupata = prenotazioneRepo.existsByPostazioneAndDataPrenotazione(postazioneSelezionata, oggi);
+                            //verificar se un utente ha già una prenotazione per una certa data
                             boolean utenteHaPrenotazione = prenotazioneRepo.existsByUtenteAndDataPrenotazione(utente, oggi);
 
                             if (postazioneOccupata) {
